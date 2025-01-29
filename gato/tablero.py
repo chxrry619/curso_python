@@ -1,3 +1,4 @@
+import random
 
 def dibuja_tablero(simbolos: dict):
     '''Dibuja el tablero del juego del gato'''
@@ -10,9 +11,18 @@ def dibuja_tablero(simbolos: dict):
 ''')
 
 if __name__ == '__main__':
-    numeros = {str(i): str(i) for i in range(1, 10)}
-    dsimbolos = {x:x for x in numeros}
-    dsimbolos['5'] = 'X'
+    numeros = [str(i) for i in range(1, 10)]
+    dsimbolos = {x: x for x in numeros}
     dibuja_tablero(dsimbolos)
-    dsimbolos['7'] = '0'    
+    
+    x = random.choice(numeros)
+    numeros.remove(x)
+    dsimbolos[x] = 'X'
     dibuja_tablero(dsimbolos)
+    
+    o = random.choice(numeros)
+    numeros.remove(o)
+    dsimbolos[o] = 'O'
+    dibuja_tablero(dsimbolos)
+    
+    print(numeros)
