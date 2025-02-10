@@ -5,6 +5,6 @@ def carga_archivo_texto(archivo: str) -> list:
 
 
 if __name__ == '__main__':
-    lista = carga_archivo_texto('./plantilla/bad-apple.txt')
+    lista = carga_archivo_texto('./hangman/plantilla/bad-apple.txt')
     for elemento in lista:
         print(elemento)
