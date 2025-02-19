@@ -19,7 +19,7 @@ def carga_plantillas(nombre_plantilla:str)->dict:
     '''
     plantillas = {}
     for i in range(6):
-        plantillas[i] = carga_archivo_texto(f'./plantillas/{nombre_plantilla}-{i}.txt')
+        plantillas[i] = carga_archivo_texto(f'./hangman/plantillas/{nombre_plantilla}-{i}.txt')
     return plantillas
 
 def despliega_plantilla(diccionario:dict, nivel:int):
@@ -77,6 +77,7 @@ if __name__ == '__main__':
     plantillas = carga_plantillas('plantilla')
     despliega_plantilla(plantillas, 5)
     lista_oraciones = carga_archivo_texto('./datos/pg15532.txt')
+    
     lista_palabras = obten_palabras(lista_oraciones)
     print(len(lista_palabras))
     p = choice(lista_palabras)
