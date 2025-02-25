@@ -10,3 +10,16 @@ class Sport:
 
             def to_json(self) -> dict:
                 return{"name:self.name"}
+            
+
+
+            print (sport_list)
+            print (sport_list[0]. to json)
+
+
+
+
+            import json
+            archivo_json= "deportes.json"
+            with open(archivo_json(), file)
+            file.write("/n")
