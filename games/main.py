@@ -1,16 +1,14 @@
-'''
-Archivo principal del juego Games
-'''
 import json
+import os  # Importamos el módulo os para verificar si el archivo existe
 from Athlete import Athlete
 from Sport import Sport
 from Team import Team
 from Game import Game
 
 
-def main(archivo_torneo:str):
+def main(archivo_torneo: str):
     ''' Función principal del juego '''
-    if archivo_torneo != "":
+    if archivo_torneo != "" and os.path.exists(archivo_torneo):  # Verificamos si el archivo existe
         with open(archivo_torneo, "r", encoding='utf8') as f:
             torneo = json.load(f)
     else:
@@ -50,14 +48,12 @@ def main(archivo_torneo:str):
                     partido_2 = f'{visitante} - {local}'
                     if partido_2 not in d:
                         d[partido] = juego.to_json()
-        #print(d.keys())
         torneo = list(d.values())
-        #juego = Game(mexico, espania)
-        #torneo = [juego.to_json()]
         archivo_torneo = "torneo.json"
         with open(archivo_torneo, "w", encoding='utf8') as f:
             json.dump(torneo, f, ensure_ascii=False, indent=4)
         print(f"Se escribió el archivo {archivo_torneo} con un torneo de {len(torneo)} juego(s)")
+    
     # Jugar todos los juegos del torneo
     for juego in torneo:
         A = Team(juego['A']['name'], 
@@ -74,6 +70,7 @@ def main(archivo_torneo:str):
         game.play()
         print(game)
         print("----------------")
+
 
 if __name__ == "__main__":
     archivo = "torneo.json"
