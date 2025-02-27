@@ -54,7 +54,7 @@ def main(archivo_torneo: str):
             json.dump(torneo, f, ensure_ascii=False, indent=4)
         print(f"Se escribió el archivo {archivo_torneo} con un torneo de {len(torneo)} juego(s)")
     
-    # Jugar todos los juegos del torneo
+    
     for juego in torneo:
         A = Team(juego['A']['name'], 
                  Sport(juego['A']['sport']['name'], 
