@@ -26,4 +26,4 @@ if __name__ == '__main__':
     print(resutaldo)
     diccionario_autores = creaa_diccionario(lista_libros, 'author')
     resutaldo = busca_en_diccionario(diccionario_autores, 'Sandra')
-    print(resultado)
+    print(resultados)
