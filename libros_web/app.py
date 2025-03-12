@@ -12,7 +12,7 @@ import funciones as fn
 
 app = Flask(__name__)
 
-archivo_csv = 'booklist2000.csv'
+archivo_csv = '/home/chrry/Documentos/curso_python/curso_python/libros_web/booklist2000.csv'
 lista_libros = fn.lee_archivo_csv(archivo_csv)
 diccionario_id = fn.crea_diccionario(lista_libros,'id')
 diccionario_titulos = fn.crea_diccionario(lista_libros,'title')
@@ -25,6 +25,7 @@ diccionario_autores = fn.crea_diccionario(lista_libros,'author')
 def inicio():
     ''' Página de inicio de la aplicación '''
     return render_template('inicio.html')
+<<<<<<< HEAD
 
 @app.route('/titulos', methods =['GET','POST'])
 =======
@@ -38,6 +39,10 @@ def inicio():
 
 @app.route('/titulo', methods =['GET','POST'])
 >>>>>>> 3f163d7 (11 de marzo patch)
+=======
+
+@app.route('/titulos', methods =['GET','POST'])
+>>>>>>> b0f3f89 (ingfreso)
 def busqueda_titulo():
     ''' Página de búsqueda por título '''
     resultado = []
@@ -105,8 +110,8 @@ def busqueda_letra(letra:str):
     resultado = fn.libros_empiezan_con(lista_libros, letra)
     return render_template('letra.html', lista_libros=resultado)
 
-@app.route('/title',  methods =['GET','POST'])
-def title():
+@app.route('/titulo',  methods =['GET','POST'])
+def titulo():
     ''' Página de búsqueda por título '''
     print(request.method)
     resultado = []
