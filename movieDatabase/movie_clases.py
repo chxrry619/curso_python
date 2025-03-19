@@ -92,7 +92,7 @@ class SistemaCine:
     
     def cargar_csv(self, archivo, clase):
         ''' Método para cargar datos desde un archivo CSV'''
-        with open(archivo, mode='r') as file:
+        with open(archivo, mode='r', encoding='utf8') as file:
             reader = csv.DictReader(file)
             for row in reader:
                 if clase == Actor:
