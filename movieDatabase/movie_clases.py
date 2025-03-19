@@ -123,21 +123,31 @@ class SistemaCine:
             pelicula = Pelicula(**row)
             self.peliculas[self.idx_pelicula] = pelicula
             elif clase == Relacion:
-                self.relaciones[self.idx_relacion] = Relacion(**row)
+                lf.relaciones.append(Relacion(**row))
             elif clase == User:
             user = User(**row)
             self.usuarios [user.username] = user
             
 
 def obtener_peliculas_por_actor(self, id_estrella):
+
+    ids_peliculas = []
+    for k,v in self.relaciones.items():
+        if v.id_estrella == id_estrella:
+            ids_peliculas.append(v.id_pelicula)
+        print (k, v.keys())
     ids_peliculas = [relacion.id_pelicula for relacion in self.relaciones if relacion.id_estrella == id_estrella]
     return [pelicula for pelicula in self.peliculas if pelicula.id_pelicula in ids_peliculas]
-if __name__ == '__main__':
+    if __name__ == '__main__':
     sistema = SistemaCine()
     sistema.cargar_csv('datos/movies_db - actores.csv', Actor)
     sistema.cargar_csv('datos/movies_db - peliculas.csv', Pelicula)
     sistema.cargar_csv('datos/movies_db - relacion.csv', Relacion)
     sistema.cargar_csv('datos/movies_db - users.csv', User)
+    lista_peliculas = sistema.obtener_peliculas_por_actor(1)
+    for pelicula in lista_peliculas:
+        print(f"{pelicula.titulo_pelicula} ({pelicula.id_pelicula} - {pelicula.fecha_lanzamiento})")
+        print(pelicula)
     print(sistema.actores)
     print(sistema.peliculas)
     print(sistema.relaciones)
