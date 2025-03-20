@@ -148,9 +148,10 @@ if __name__ == '__main__':
     #print(sistema.peliculas)
     #print(sistema.relaciones)
     #print(sistema.usuarios)
+    u.username = 'johndoe'
     print(u.username)
     print(u.nombre_completo)
     print(u.email)
     print(u.password)
-    print(f'password': {u.hash.password'12345'))}
+    print(f'password': {u.hash.password'12345')}
     print("Listo!")
