@@ -50,18 +50,20 @@ class Pelicula:
     
 class Relacion:
     ''' Clase Relación: Relación entre actores y películas'''
-    def __init__(self,id_relacion,id_pelicula,id_estrella):
+    def __init__(self,id_relacion,id_pelicula,id_estrella, personaje):
         ''' Constructor de la clase Relación'''
         self.id_relacion = int(id_relacion)
         self.id_pelicula = int(id_pelicula)  
         self.id_estrella = int(id_estrella)
+        self.personaje   = personaje
     
     def to_dict(self):
         ''' Retorna un diccionario con los atributos del objeto Relación'''
         return {
             'id_relacion': self.id_relacion,
             'id_pelicula': self.id_pelicula,
-            'id_estrella': self.id_estrella
+            'id_estrella': self.id_estrella,
+            'personaje'  : self.personaje
         }
 
 class User:
@@ -156,12 +158,42 @@ class SistemaCine:
             actor = Actor(new_id, nombre, fecha_nacimiento, ciudad_nacimiento, url_imagen, self.usuario_actual.username)
             self.actores[actor.id_estrella] = actor
 
+    def agregar_pelicula(self, titulo_pelicula, fecha_lanzamiento, url_poster):
+        if self.usuario_actual:
+            new_id = self.idx_pelicula + 1
+            self.idx_pelicula = new_id
+            pelicula = Pelicula(new_id, titulo_pelicula, fecha_lanzamiento, url_poster)
+            self.peliculas[pelicula.id_pelicula] = pelicula
+    
+    def agregar_relacion(self, id_pelicula, id_estrella,personaje):
+        if self.usuario_actual:
+            new_id = self.idx_relacion + 1
+            self.idx_relacion = new_id
+            relacion = Relacion(new_id, id_pelicula, id_estrella,personaje)
+            self.relaciones[relacion.id_relacion] = relacion
+    
+    def agregar_usuario(self, username, nombre_completo, email, password):
+        if self.usuario_actual:
+            if username not in self.usuarios:
+                user = User(username, nombre_completo, email, password)
+                user.password = user.hash_password(user.password)
+                self.usuarios[user.username] = user
+    def buscar_peliculas_por_titulo(self, titulo_parcial):
+        return [pelicula for pelicula in self.peliculas.values() if titulo_parcial.lower() in pelicula.titulo_pelicula.lower()]
+    
+    def buscar_actores_por_nombre(self, nombre_parcial):
+        return [actor for actor in self.actores.values() if nombre_parcial.lower() in actor.nombre.lower()]
+    
 if __name__ == '__main__':
     sistema = SistemaCine()
-    sistema.cargar_csv('datos/movies_db - actores.csv', Actor)
-    sistema.cargar_csv('datos/movies_db - peliculas.csv', Pelicula)
-    sistema.cargar_csv('datos/movies_db - relacion.csv', Relacion)
-    sistema.cargar_csv('datos/movies_db - users_hashed.csv', User)
+    archivo_actores = 'datos/movies_db - actores.csv'
+    archivo_peliculas = 'datos/movies_db - peliculas.csv'
+    archivo_relaciones = 'datos/movies_db - relacion.csv'
+    archivo_usuarios = 'datos/movies_db - users_hashed.csv'
+    sistema.cargar_csv(archivo_actores, Actor)
+    sistema.cargar_csv(archivo_peliculas, Pelicula)
+    sistema.cargar_csv(archivo_relaciones, Relacion)
+    sistema.cargar_csv(archivo_usuarios, User)
     lista_peliculas = sistema.obtener_peliculas_por_actor(1)
     for pelicula in lista_peliculas:
         print(f"{pelicula.id_pelicula}:{pelicula.titulo_pelicula} ({pelicula.fecha_lanzamiento.year})")
@@ -187,8 +219,18 @@ if __name__ == '__main__':
     exito = sistema.login('fcirettg','12345')
     print(exito)
     if exito:
-        sistema.agregar_actor('Wesley Snipes', '1962-07-31', 'Orlando, Florida, USA', 'https://upload.wikimedia.org/wikipedia/commons/4/46/Wesleysnipes_cropped_2009.jpg')
-        archivo_actores = 'datos/movies_db - actores.csv'
-        sistema.guardar_csv(archivo_actores, sistema.actores)
-        print(f"Archivo {archivo_actores} guardado")
+        #sistema.agregar_usuario('messi10','Lionel Messi','messi@gmail.com','12345')
+        #sistema.guardar_csv(archivo_usuarios, sistema.usuarios)
+        #print(f"Usuario agregado")
+        sistema.agregar_relacion(69,36,'Rita')
+        sistema.guardar_csv(archivo_relaciones, sistema.relaciones)
+        print(f"Relación agregada")
+    print("-----------------")
+    pelis = sistema.buscar_peliculas_por_titulo('star')
+    for p in pelis:
+        print(p)
+    print("-----------------")
+    actores = sistema.buscar_actores_por_nombre('ar')
+    for a in actores:
+        print(a)
     print("Listo!")
