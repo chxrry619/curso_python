@@ -103,6 +103,7 @@ class SistemaCine:
     
     def cargar_csv(self, archivo, clase):
         ''' Método para cargar datos desde un archivo CSV'''
+        print(f"Cargando datos desde {archivo}")
         with open(archivo, mode='r', encoding='utf8') as file:
             reader = csv.DictReader(file)
             for row in reader:
@@ -113,6 +114,7 @@ class SistemaCine:
                     pelicula = Pelicula(**row)
                     self.peliculas[pelicula.id_pelicula] = pelicula
                 elif clase == Relacion:
+                    print(row)
                     relacion = Relacion(**row)
                     self.relaciones[relacion.id_relacion] = relacion
                 elif clase == User:
