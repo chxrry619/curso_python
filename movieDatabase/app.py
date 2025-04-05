@@ -104,5 +104,41 @@ def agregar_relacion():
         #return redirect(url_for('index'))
         return redirect(url_for('actor', id_actor=id_actor))
     
+@app.route('/agregar_peliculas', methods=['GET','POST'])    
+@app.route('/agregar_peliculas', methods=['GET','POST'])
+def agregar_pelicula():
+    ''' Agrega una película '''
+    if sistema.usuario_actual is None:
+        flash('Debes iniciar sesión para agregar películas', 'warning')
+        return redirect(url_for('login'))
+    if request.method == 'GET':
+        return render_template('agregar_pelicula.html')
+    if request.method == 'POST':
+        titulo = request.form.get('titulo')
+        fecha_lanzamiento = request.form.get('fecha_lanzamiento')
+        url_poster = request.form.get('url_poster')
+        sistema.agregar_pelicula(titulo,fecha_lanzamiento,url_poster)
+        sistema.guardar_csv(peliculas_csv,sistema.peliculas)
+        return redirect(url_for('peliculas'))
+    
+@app.route('/agregar_actores', methods=['GET','POST'])
+@app.route('/agregar_actor', methods=['GET','POST'])  
+def agregar_actor():
+    ''' Agrega un actor '''
+    if sistema.usuario_actual is None:
+        flash('Debes iniciar sesión para agregar actores', 'warning')
+        return redirect(url_for('login'))
+    if request.method == 'GET':
+        return render_template('agregar_actor.html')
+    if request.method == 'POST':
+        nombre = request.form.get('nombre')
+        fecha_nacimiento = request.form.get('fecha_nacimiento')
+        lugar_nacimiento = request.form.get('lugar_nacimiento')
+        url_imagen = request.form.get('url_imagen')
+        sistema.agregar_actor(nombre,fecha_nacimiento,lugar_nacimiento,url_imagen)
+        sistema.guardar_csv(actores_csv,sistema.actores)
+        return redirect(url_for('actores'))  
+
+
 if __name__ == '__main__':
     app.run(debug=True)
