@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import random
 import os
+import csv
+import json
+from collections import defaultdict
 
 
 # Rutas
@@ -15,7 +18,8 @@ revistas = defaultdict(lambda: {"areas": [], "catalogos": []})
 for archivo in os.listdir(AREAS_DIR):
     if archivo.endswith('.csv'):
         area_nombre = os.path.splitext(archivo)[0].upper()
-        with open(os.path.join(AREAS_DIR, archivo), newline='', encoding='utf-8') as f:
+        with open(os.path.join(AREAS_DIR, archivo), newline='', encoding='latin1') as f:
+
             reader = csv.reader(f)
             for row in reader:
                 titulo = row[0].strip().lower()
@@ -26,7 +30,7 @@ for archivo in os.listdir(AREAS_DIR):
 for archivo in os.listdir(CATALOGOS_DIR):
     if archivo.endswith('.csv'):
         catalogo_nombre = os.path.splitext(archivo)[0].upper()
-        with open(os.path.join(CATALOGOS_DIR, archivo), newline='', encoding='utf-8') as f:
+        with open(os.path.join(CATALOGOS_DIR, archivo), newline='', encoding='latin1') as f:
             reader = csv.reader(f)
             for row in reader:
                 titulo = row[0].strip().lower()
@@ -35,7 +39,7 @@ for archivo in os.listdir(CATALOGOS_DIR):
 
 # Guardar como JSON
 os.makedirs(os.path.dirname(OUTPUT_JSON), exist_ok=True)
-with open(OUTPUT_JSON, 'w', encoding='utf-8') as f:
+with open(OUTPUT_JSON, 'w', encoding='latin1') as f:
     json.dump(revistas, f, ensure_ascii=False, indent=4)
 
 print(f"Archivo JSON generado en: {OUTPUT_JSON}")
