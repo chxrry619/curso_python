@@ -26,9 +26,17 @@ def buscar_frases(frases, termino):
 
 if __name__ == '__main__':
     while True:
-        print("\n=== Buscador ===")
+        print("\n=== Buscador Momichi ===")
         termino = input("Escribe una palabra o parte de la frase a buscar (o escribe 'salir'): ").strip()
         if termino.lower() == 'salir':
             break
         resultados = buscar_frases(lista_libros, termino)
         mostrar_tabla(resultados)
+
+
+
+
+
+
+        if __name__ == '__main__':
+            parser = argparse.ArgumentParser(description="Buscador de frases célebres")
